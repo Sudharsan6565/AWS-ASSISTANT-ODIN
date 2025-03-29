@@ -4,12 +4,10 @@ import iconMap from './iconMap';
 
 const BreakdownGrid = () => {
   const { data } = useDashboardStore();
-
   if (!data) return null;
 
   const breakdown = data.cost.breakdown;
 
-  // Add at least 10 services (real + dummy with ₹0 if needed)
   const defaultServices = [
     'Cost Explorer', 'Route 53', 'Tax', 'EC2', 'Lambda',
     'S3', 'CloudWatch', 'DynamoDB', 'SNS', 'VPC',
@@ -20,12 +18,10 @@ const BreakdownGrid = () => {
     return acc;
   }, {} as Record<string, number>);
 
-  // Sort by cost (descending)
   const sortedBreakdown = Object.fromEntries(
     Object.entries(fullBreakdown).sort((a, b) => b[1] - a[1])
   );
 
-  // Highlight top 3 services
   const highlightTop = Object.keys(sortedBreakdown).slice(0, 3);
 
   return (
@@ -33,15 +29,14 @@ const BreakdownGrid = () => {
       <h2 className="text-lg font-semibold mb-4 text-center">
         AWS Service-wise Cost
       </h2>
-
-      <div className="overflow-x-auto">
-        <div className="flex gap-4 justify-start px-2 min-w-max">
+      <div className="overflow-x-auto scrollbar-hide snap-x snap-mandatory">
+        <div className="flex gap-4 justify-start px-2 min-w-max snap-start">
           {Object.entries(sortedBreakdown).map(([service, cost]) => {
             const icon = iconMap[service] || awsLogo;
             return (
               <div
                 key={service}
-                className={`min-w-[128px] h-32 flex flex-col items-center justify-center bg-white rounded-xl shadow-md dark:bg-gray-800 transition duration-300 flex-shrink-0 ${
+                className={`min-w-[128px] h-32 flex-shrink-0 flex flex-col items-center justify-center bg-white rounded-xl shadow-md dark:bg-gray-800 transition duration-300 ${
                   highlightTop.includes(service)
                     ? 'border-2 border-blue-500'
                     : 'border border-gray-200 dark:border-gray-700'

@@ -18,69 +18,66 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="max-w-7xl mx-auto w-full px-4">
+    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-10">
       {data && (
         <>
           {/* Top 4 Stat Tiles */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
-            <div className="bg-white shadow p-4 rounded dark:bg-gray-800">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+            <div className="bg-white shadow-md p-4 rounded-xl dark:bg-gray-800">
               <p className="text-sm text-gray-500">Actual Billed</p>
               <p className="text-xl font-semibold">₹{data.actualBilled}</p>
             </div>
-            <div className="bg-white shadow p-4 rounded dark:bg-gray-800">
+            <div className="bg-white shadow-md p-4 rounded-xl dark:bg-gray-800">
               <p className="text-sm text-gray-500">Est. Month-End</p>
               <p className="text-xl font-semibold">₹{data.estimatedMonthEnd}</p>
             </div>
-            <div className="bg-white shadow p-4 rounded dark:bg-gray-800">
+            <div className="bg-white shadow-md p-4 rounded-xl dark:bg-gray-800">
               <p className="text-sm text-gray-500">Budget Limit</p>
               <p className="text-xl font-semibold">₹{data.budget.amount}</p>
             </div>
-            <div className="bg-white shadow p-4 rounded dark:bg-gray-800">
+            <div className="bg-white shadow-md p-4 rounded-xl dark:bg-gray-800">
               <p className="text-sm text-gray-500">Remaining</p>
               <p className="text-xl font-semibold">₹{data.budget.remaining}</p>
             </div>
           </div>
 
-          {/* ExportBar with Date Picker, CSV, Last Updated */}
           <ExportBar />
 
-           {/* Graph + BudgetGauge (70/30 Split) */}
-<div className="mt-8 flex flex-col lg:flex-row gap-6 items-start">
-  <div className="w-full lg:w-[70%] bg-white p-0 rounded-xl shadow-md dark:bg-gray-800">
-    <CostChart />
-  </div>
-  <div className="w-full lg:w-[30%] bg-white p-4 rounded-xl shadow-md dark:bg-gray-800">
-    <BudgetGauge />
-  </div>
-</div>
+          {/* Graph + BudgetGauge */}
+          <div className="mt-8 flex flex-col lg:flex-row gap-4 items-start">
+            <div className="w-full lg:w-[70%] bg-white p-4 rounded-xl shadow-md dark:bg-gray-800">
+              <CostChart />
+            </div>
+            <div className="w-full lg:w-[30%] bg-white p-4 rounded-xl shadow-md dark:bg-gray-800">
+              <BudgetGauge />
+            </div>
+          </div>
 
-
-          {/* Breakdown Grid */}
           <BreakdownGrid />
 
-          {/* Horizontal Split: Trusted Advisor + Cost Optimizer */}
+          {/* Trusted Advisor + Cost Optimizer */}
           <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-white p-4 shadow rounded dark:bg-gray-800">
+            <div className="bg-white p-4 shadow-md rounded-xl dark:bg-gray-800">
               <h2 className="font-semibold mb-2">Trusted Advisor</h2>
               <TrustedAdvisorPanel />
             </div>
-            <div className="bg-white p-4 shadow rounded dark:bg-gray-800">
+            <div className="bg-white p-4 shadow-md rounded-xl dark:bg-gray-800">
               <h2 className="font-semibold mb-2">Cost Optimization Hub</h2>
               <CostOptimizerPanel />
             </div>
           </div>
 
-          {/* Horizontal Split: Alerts + Notifications + Devices */}
+          {/* Alerts + Notifications + Devices */}
           <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white p-4 shadow rounded dark:bg-gray-800">
+            <div className="bg-white p-4 shadow-md rounded-xl dark:bg-gray-800">
               <h2 className="font-semibold mb-2">Budget Alerts</h2>
               <AlertPanel />
             </div>
-            <div className="bg-white p-4 shadow rounded dark:bg-gray-800">
+            <div className="bg-white p-4 shadow-md rounded-xl dark:bg-gray-800">
               <h2 className="font-semibold mb-2">Notifications</h2>
               <NotificationsPanel />
             </div>
-            <div className="bg-white p-4 shadow rounded dark:bg-gray-800">
+            <div className="bg-white p-4 shadow-md rounded-xl dark:bg-gray-800">
               <h2 className="font-semibold mb-2">Registered Devices</h2>
               <DevicePanel />
             </div>
