@@ -12,7 +12,7 @@ import NotificationsPanel from '../NotificationsPanel';
 import DevicePanel from '../DevicePanel';
 
 const Home = () => {
-  const { data, loading, error, fetchData } = useDashboardStore();
+  const { data, fetchData } = useDashboardStore();
 
   useEffect(() => {
     fetchData();

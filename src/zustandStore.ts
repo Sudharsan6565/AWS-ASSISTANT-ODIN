@@ -9,6 +9,18 @@ interface ChartData {
   cost: number;
 }
 
+interface Notification {
+  type?: string;
+  title?: string;
+  body: string;
+}
+
+interface Device {
+  deviceId: string;
+  fcmToken: string;
+  createdAt: string;
+}
+
 interface DashboardData {
   date: string;
   actualBilled: number;
@@ -25,6 +37,13 @@ interface DashboardData {
     breakdown: Record<string, number>;
   };
   accountId: string;
+
+  notifications?: {
+    budgetAlerts?: Notification[];
+    trustedAdvisor?: Notification[];
+    costOptimizer?: Notification[];
+  };
+  devices?: Device[];
 }
 
 interface DashboardState {
@@ -56,7 +75,7 @@ export const useDashboardStore = create<DashboardState>()(
           const response = await axios.get(API_URL);
           const lambdaChartData: ChartData[] = response.data?.cost?.chartData || [];
 
-          // Simulate last 10 days with ₹0
+          // Simulate last 10 days
           const today = new Date();
           const simulatedChart: ChartData[] = [];
 
@@ -67,7 +86,7 @@ export const useDashboardStore = create<DashboardState>()(
             simulatedChart.push({ date: iso, cost: 0 });
           }
 
-          // Merge simulated + real
+          // Merge simulated + lambda
           const finalChart = simulatedChart.map((entry) => {
             const found = lambdaChartData.find((d) => d.date === entry.date);
             return found || entry;
