@@ -33,6 +33,10 @@ interface DashboardState {
   error: string | null;
   fetchData: () => Promise<void>;
   setFilteredChartData: (data: ChartData[]) => void;
+
+  // ✅ New additions
+  isAuthenticated: boolean;
+  login: () => void;
 }
 
 export const useDashboardStore = create<DashboardState>((set) => ({
@@ -40,6 +44,10 @@ export const useDashboardStore = create<DashboardState>((set) => ({
   filteredChartData: [],
   loading: false,
   error: null,
+  isAuthenticated: false, // ✅ added auth state
+
+  login: () => set({ isAuthenticated: true }), // ✅ added login method
+
   fetchData: async () => {
     set({ loading: true, error: null });
     try {
@@ -55,6 +63,7 @@ export const useDashboardStore = create<DashboardState>((set) => ({
       set({ error: err.message, loading: false });
     }
   },
+
   setFilteredChartData: (filtered) => set({ filteredChartData: filtered }),
 }));
 
