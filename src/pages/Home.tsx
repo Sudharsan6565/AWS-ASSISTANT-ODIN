@@ -18,12 +18,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="w-full px-4 py-6 sm:px-6 lg:px-8">
-      <h1 className="text-2xl font-bold mb-6">ODIN AWS Assistant</h1>
-
-      {loading && <p>Loading data...</p>}
-      {error && <p className="text-red-500">Error: {error}</p>}
-
+    <div className="max-w-7xl mx-auto w-full px-4">
       {data && (
         <>
           {/* Top 4 Stat Tiles */}
@@ -49,15 +44,16 @@ const Home = () => {
           {/* ExportBar with Date Picker, CSV, Last Updated */}
           <ExportBar />
 
-          {/* Graph + BudgetGauge */}
-          <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-2">
-              <CostChart />
-            </div>
-            <div className="flex flex-col gap-6">
-              <BudgetGauge />
-            </div>
-          </div>
+           {/* Graph + BudgetGauge (70/30 Split) */}
+<div className="mt-8 flex flex-col lg:flex-row gap-6 items-start">
+  <div className="w-full lg:w-[70%] bg-white p-0 rounded-xl shadow-md dark:bg-gray-800">
+    <CostChart />
+  </div>
+  <div className="w-full lg:w-[30%] bg-white p-4 rounded-xl shadow-md dark:bg-gray-800">
+    <BudgetGauge />
+  </div>
+</div>
+
 
           {/* Breakdown Grid */}
           <BreakdownGrid />

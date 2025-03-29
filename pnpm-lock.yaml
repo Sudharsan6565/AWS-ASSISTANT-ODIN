@@ -59,6 +59,9 @@ importers:
       react-apexcharts:
         specifier: ^1.7.0
         version: 1.7.0(apexcharts@4.5.0)(react@19.1.0)
+      react-circular-progressbar:
+        specifier: ^2.2.0
+        version: 2.2.0(react@19.1.0)
       react-dnd:
         specifier: ^16.0.1
         version: 16.0.1(@types/node@22.13.14)(@types/react@19.0.12)(react@19.1.0)
@@ -1641,6 +1644,11 @@ packages:
     peerDependencies:
       apexcharts: '>=4.0.0'
       react: '>=0.13'
+
+  react-circular-progressbar@2.2.0:
+    resolution: {integrity: sha512-cgyqEHOzB0nWMZjKfWN3MfSa1LV3OatcDjPz68lchXQUEiBD5O1WsAtoVK4/DSL0B4USR//cTdok4zCBkq8X5g==}
+    peerDependencies:
+      react: '>=0.14.0'
 
   react-dnd-html5-backend@16.0.1:
     resolution: {integrity: sha512-Wu3dw5aDJmOGw8WjH1I1/yTH+vlXEL4vmjk5p+MHxP8HuHJS1lAGeIdG/hze1AvNeXWo/JgULV87LyQOr+r5jw==}
@@ -3327,6 +3335,10 @@ snapshots:
     dependencies:
       apexcharts: 4.5.0
       prop-types: 15.8.1
+      react: 19.1.0
+
+  react-circular-progressbar@2.2.0(react@19.1.0):
+    dependencies:
       react: 19.1.0
 
   react-dnd-html5-backend@16.0.1:

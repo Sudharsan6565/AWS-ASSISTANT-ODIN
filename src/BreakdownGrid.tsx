@@ -1,73 +1,71 @@
 import { useDashboardStore } from './zustandStore';
+import awsLogo from './icons/aws.ico';
 import iconMap from './iconMap';
-import awsIcon from './icons/aws.ico';
 
 const BreakdownGrid = () => {
   const { data } = useDashboardStore();
-  const breakdown = data?.cost?.breakdown || {};
 
+  if (!data) return null;
+
+  const breakdown = data.cost.breakdown;
+
+  // Add at least 10 services (real + dummy with ₹0 if needed)
   const defaultServices = [
-    'Cost Explorer',
-    'Route 53',
-    'Tax',
-    'EC2',
-    'Lambda',
-    'S3',
-    'CloudWatch',
-    'DynamoDB',
-    'SNS',
-    'VPC',
+    'Cost Explorer', 'Route 53', 'Tax', 'EC2', 'Lambda',
+    'S3', 'CloudWatch', 'DynamoDB', 'SNS', 'VPC',
   ];
 
-  // Merge actual + fallback services (ensure 10 tiles)
-  const filledServices = Array.from(
-    new Set([...defaultServices, ...Object.keys(breakdown)])
-  ).slice(0, 10);
+  const fullBreakdown = defaultServices.reduce((acc, key) => {
+    acc[key] = breakdown[key] ?? 0;
+    return acc;
+  }, {} as Record<string, number>);
 
-  const services = filledServices.map((service) => ({
-    name: service,
-    cost: breakdown[service] || 0,
-    icon: iconMap[service] || awsIcon,
-  }));
+  // Sort by cost (descending)
+  const sortedBreakdown = Object.fromEntries(
+    Object.entries(fullBreakdown).sort((a, b) => b[1] - a[1])
+  );
 
-  // Top 3 by cost
-  const sorted = [...services].sort((a, b) => b.cost - a.cost);
-  const top3 = sorted.slice(0, 3).map((s) => s.name);
-return (
-  <div className="mt-10">
-    <h2 className="text-lg font-semibold mb-4 text-center">
-      AWS Service-wise Cost
-    </h2>
+  // Highlight top 3 services
+  const highlightTop = Object.keys(sortedBreakdown).slice(0, 3);
 
-    <div className="overflow-x-auto pb-2">
-      <div className="flex gap-4 px-4 w-max">
-        {services.map((svc, idx) => (
-          <div
-            key={idx}
-            className={`bg-white dark:bg-gray-800 rounded-lg shadow-md p-5 w-44 flex-shrink-0 text-center transition-transform hover:scale-105 ${
-              top3.includes(svc.name)
-                ? 'border-2 border-blue-500'
-                : 'border border-gray-300 dark:border-gray-700'
-            }`}
-          >
-            <img
-              src={svc.icon}
-              alt={svc.name}
-              className="w-12 h-12 mx-auto mb-2 object-contain rounded-md shadow-sm"
-            />
-            <p className="text-sm font-medium truncate">{svc.name}</p>
-            <p className="text-blue-600 dark:text-blue-400 font-semibold text-lg">
-              ₹{svc.cost.toFixed(2)}
-            </p>
-          </div>
-        ))}
+  return (
+    <div className="mt-12 w-full">
+      <h2 className="text-lg font-semibold mb-4 text-center">
+        AWS Service-wise Cost
+      </h2>
+
+      <div className="overflow-x-auto">
+        <div className="flex gap-4 justify-start px-2 min-w-max">
+          {Object.entries(sortedBreakdown).map(([service, cost]) => {
+            const icon = iconMap[service] || awsLogo;
+            return (
+              <div
+                key={service}
+                className={`min-w-[128px] h-32 flex flex-col items-center justify-center bg-white rounded-xl shadow-md dark:bg-gray-800 transition duration-300 flex-shrink-0 ${
+                  highlightTop.includes(service)
+                    ? 'border-2 border-blue-500'
+                    : 'border border-gray-200 dark:border-gray-700'
+                }`}
+              >
+                <img
+                  src={icon}
+                  alt={service}
+                  className="w-10 h-10 mb-2 rounded-full object-contain border border-gray-300"
+                />
+                <p className="text-sm font-semibold text-gray-700 dark:text-gray-200 text-center">
+                  {service}
+                </p>
+                <p className="text-sm font-bold text-blue-600 dark:text-blue-400">
+                  ₹{cost.toFixed(2)}
+                </p>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
-  </div>
-);
-
-
-}
+  );
+};
 
 export default BreakdownGrid;
 
