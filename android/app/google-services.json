@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "199065862276",
+    "project_id": "awsassistant-9fec3",
+    "storage_bucket": "awsassistant-9fec3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:199065862276:android:7c0002297d253d692982d1",
+        "android_client_info": {
+          "package_name": "com.sudharsan.odin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5zwHS_A9YbtVpf71dwzYPGDEDgUsHWuU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

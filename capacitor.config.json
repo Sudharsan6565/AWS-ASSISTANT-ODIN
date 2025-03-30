@@ -1,0 +1,7 @@
+{
+  "appId": "com.sudharsan.odin",
+  "appName": "ODIN Dashboard",
+  "webDir": "dist",
+  "bundledWebRuntime": false
+}
+

@@ -1,8 +1,16 @@
 import { useDashboardStore } from './zustandStore';
 import dayjs from 'dayjs';
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import { saveAs } from 'file-saver';
 import Papa from 'papaparse';
 import { useEffect, useState } from 'react';
+import { Capacitor } from '@capacitor/core';
+import { Filesystem, Directory } from '@capacitor/filesystem';
+
+dayjs.extend(isSameOrAfter);
+dayjs.extend(isSameOrBefore);
+
 
 const ExportBar = () => {
   const { data, setFilteredChartData, filteredChartData } = useDashboardStore();
@@ -14,16 +22,21 @@ const ExportBar = () => {
   const lastUpdatedTime = dayjs().format('HH:mm:ss');
 
   useEffect(() => {
+    if (!chartData.length) return;
+
+    const from = dayjs(fromDate);
+    const to = dayjs(toDate);
+
     const filtered = chartData.filter((item) => {
-      const itemDate = dayjs(item.date, 'YYYY-MM-DD');
-      const from = dayjs(fromDate);
-      const to = dayjs(toDate);
-      return itemDate.isAfter(from.subtract(1, 'day')) && itemDate.isBefore(to.add(1, 'day'));
+      const itemDate = dayjs(item.date);
+      if (!itemDate.isValid()) return false;
+      return itemDate.isSameOrAfter(from) && itemDate.isSameOrBefore(to);
     });
-    setFilteredChartData(filtered);
+
+    setFilteredChartData(filtered.length ? filtered : chartData);
   }, [fromDate, toDate, chartData, setFilteredChartData]);
 
-  const handleExport = () => {
+  const handleExport = async () => {
     if (!data) return;
 
     const { actualBilled, estimatedMonthEnd, budget, cost } = data;
@@ -60,16 +73,30 @@ const ExportBar = () => {
       '\n\n--- Cost Breakdown ---\n' +
       breakdownCSV;
 
-    const blob = new Blob([finalCSV], { type: 'text/csv;charset=utf-8;' });
     const fromLabel = dayjs(fromDate).format('YYYY-MM-DD');
     const toLabel = dayjs(toDate).format('YYYY-MM-DD');
+    const filename = `odin_aws_report_${fromLabel}_to_${toLabel}.csv`;
 
-    saveAs(blob, `odin_aws_report_${fromLabel}_to_${toLabel}.csv`);
+    if (Capacitor.isNativePlatform()) {
+      try {
+        await Filesystem.writeFile({
+          path: filename,
+          data: finalCSV,
+          directory: Directory.Documents,
+        });
+        alert(`✅ Saved to device: ${filename}`);
+      } catch (err) {
+        console.error('❌ Failed to save CSV on device:', err);
+        alert('❌ Failed to save CSV on device');
+      }
+    } else {
+      const blob = new Blob([finalCSV], { type: 'text/csv;charset=utf-8;' });
+      saveAs(blob, filename);
+    }
   };
 
   return (
     <div className="flex flex-wrap items-center gap-4 mb-6 mt-6">
-      {/* From & To Date Pickers */}
       <div className="flex items-center gap-2 flex-wrap">
         <label className="text-sm text-gray-600 dark:text-gray-300">From:</label>
         <input
@@ -87,7 +114,6 @@ const ExportBar = () => {
         />
       </div>
 
-      {/* Dropdown Range Selector */}
       <select
         value={selectedRange}
         onChange={(e) => setSelectedRange(e.target.value)}
@@ -98,7 +124,6 @@ const ExportBar = () => {
         <option>Last Month</option>
       </select>
 
-      {/* Export Button */}
       <button
         onClick={handleExport}
         className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm active:scale-95 transition-transform"
@@ -106,7 +131,6 @@ const ExportBar = () => {
         Export CSV
       </button>
 
-      {/* Last Updated Timestamp */}
       <span className="text-sm text-gray-500 dark:text-gray-400 ml-auto">
         Last Updated: {lastUpdatedTime}
       </span>

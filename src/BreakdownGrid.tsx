@@ -51,7 +51,7 @@ const BreakdownGrid = () => {
                   {service}
                 </p>
                 <p className="text-sm font-bold text-blue-600 dark:text-blue-400">
-                  ₹{cost.toFixed(2)}
+                  ${cost.toFixed(2)}
                 </p>
               </div>
             );
