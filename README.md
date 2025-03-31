@@ -22,16 +22,17 @@ _(*APK file is included in the root of this repository*)_
 > Just install, sign in, and start monitoring your AWS cost — **from your pocket.**
 
 ---
-
 ## 📸 Screenshots
 
-| 📱 Mobile App | 🔔 Push Alerts | 🖥 Web Console |
-|--------------|----------------|----------------|
-| ![](readme-assets/mobile-dark.jpeg) | ![](readme-assets/push-alerts.jpeg) | ![](readme-assets/web-dark.png) |
+| Mobile App | Push Alerts | Web Console |
+|------------|-------------|--------------|
+| ![](readme-assets/1.jpeg) | ![](readme-assets/2.jpeg) | ![](readme-assets/3.jpeg) |
 
-| 🌗 Dark Mode | ☀️ Light Mode |
-|--------------|----------------|
-| ![](readme-assets/web-dark.png) | ![](readme-assets/web-light.png) |
+| Dark Mode | Light Mode |
+|-----------|------------|
+| ![](readme-assets/4.png) | ![](readme-assets/5.png) |
+
+
 
 ---
 
