@@ -26,7 +26,7 @@ _(*APK file is included in the root of this repository*)_
 
 | Mobile App | Push Alerts | Web Console |
 |------------|-------------|--------------|
-| ![](readme-assets/1.jpeg) | ![](readme-assets/2.jpeg) | ![](readme-assets/3.jpeg) |
+| ![](readme-assets/1.png) | ![]() | ![](readme-assets/3.jpeg) |
 
 | Dark Mode | Light Mode |
 |-----------|------------|
@@ -71,6 +71,8 @@ ODIN avoids AWS Cost Explorer charges by using a custom Lambda that:
 | React + Vite + Tailwind | Node.js (Lambda) | S3 + CloudFront + Route 53 |
 | Zustand (state) | API Gateway | DynamoDB + IAM + SNS |
 | Recharts | Firebase Admin SDK | Capacitor (Android build) |
+💡 Built and tested solo using real AWS data and Firebase. ChatGPT was used as a coding assistant to accelerate development — not as a replacement for logic or architecture.
+
 
 ---
 
